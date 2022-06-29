@@ -1808,7 +1808,7 @@ class GTEST_API_ ThreadLocal {
   class DefaultValueHolderFactory : public ValueHolderFactory {
    public:
     DefaultValueHolderFactory() {}
-    virtual ValueHolder* MakeNewHolder() const { return new ValueHolder(); }
+    virtual ValueHolder* MakeNewHolder() const override { return new ValueHolder(); }
 
    private:
     GTEST_DISALLOW_COPY_AND_ASSIGN_(DefaultValueHolderFactory);
@@ -1817,7 +1817,7 @@ class GTEST_API_ ThreadLocal {
   class InstanceValueHolderFactory : public ValueHolderFactory {
    public:
     explicit InstanceValueHolderFactory(const T& value) : value_(value) {}
-    virtual ValueHolder* MakeNewHolder() const {
+    virtual ValueHolder* MakeNewHolder() const override {
       return new ValueHolder(value_);
     }
 
@@ -2096,7 +2096,7 @@ GTEST_DISABLE_MSC_DEPRECATED_POP_()
 // are not part of standard C++ and numeric_limits doesn't need to be
 // defined for them.
 const BiggestInt kMaxBiggestInt =
-    ~(static_cast<BiggestInt>(1) << (8*sizeof(BiggestInt) - 1));
+    std::numeric_limits<BiggestInt>::max();
 
 // This template class serves as a compile-time function from size to
 // type.  It maps a size in bytes to a primitive type with that
